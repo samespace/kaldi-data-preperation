@@ -1,6 +1,6 @@
 
 # Kaldi Data Preparation
-Python tool to convert data from Nemo/Deepspeech format to Kaldi format described in https://kaldi-asr.org/doc/data_prep.html
+Tool to transform data from Nemo/Deepspeech format to Kaldi as described here — https://kaldi-asr.org/doc/data_prep.html
 
 ## Requirements
 python >= 3.5
