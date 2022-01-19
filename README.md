@@ -9,7 +9,7 @@ python >= 3.5
 
 ## Usage
 ```
-git clone https://github.com/splunk/pion.git && cd pion
+git clone https://github.com/samespace/kaldi-data-preperation.git && cd kaldi-data-preperation
 pip3 install -r requirements.txt
 
 python3 data.py -h
