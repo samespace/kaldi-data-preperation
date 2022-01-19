@@ -2,6 +2,7 @@ import sys
 import logging
 import os
 import csv
+import shutil
 
 from optparse       import OptionParser
 from phonetics      import ipa2xsampa
@@ -158,7 +159,7 @@ def create_training_data_for_language_model(utt_dict, data_dir, transcripts):
         logging.info("lmplz is not installed or is not on PATH.")
         quit()
     lm_fn = '%s/lm/lm.arpa' % data_dir
-    cmd = 'lmplz -S 50% --text %s --arpa %s --order 3 --interpolate_unigrams' % (text_fn , lm_fn)
+    cmd = 'lmplz -S 50%% --text %s --arpa %s --order 3' % (text_fn , lm_fn)
     os.system(cmd)
     logging.info("%s written." % lm_fn)
     lm_gz = '%s/lm/tg.lm.gz' % data_dir
@@ -189,7 +190,7 @@ csv_file       = args[1]
 data_dir = 'data'
 
 if os.path.isdir(data_dir):
-    os.remove(data_dir)
+    shutil.rmtree(data_dir)
 
 #
 # generate speech and text corpora
