@@ -20,7 +20,7 @@ def read_all_transcripts(csv_file):
 
 def split_train_data(ts, split=0.2):
     from sklearn.model_selection import train_test_split
-    train, test = train_test_split(ts, test_size=0.2)
+    train, test = train_test_split(ts, test_size=split)
     return train, test
 
 
@@ -162,7 +162,7 @@ def create_training_data_for_language_model(utt_dict, data_dir, transcripts):
     cmd = 'lmplz -S 50%% --text %s --arpa %s --order 3' % (text_fn , lm_fn)
     os.system(cmd)
     logging.info("%s written." % lm_fn)
-    lm_gz = '%s/lm/tg.lm.gz' % data_dir
+    lm_gz = '%s/lm/lm.gz' % data_dir
     cmd = 'gzip -c %s > %s' % (lm_fn, lm_gz)
     os.system(cmd)
     logging.info("%s written." % lm_gz)
@@ -174,6 +174,8 @@ def create_training_data_for_language_model(utt_dict, data_dir, transcripts):
 parser = OptionParser("usage: %prog [options] <dict> <csv_path>")
 
 parser.add_option ("-d", "--debug", dest="debug", type='int', default=0, help="Limit number of sentences (debug purposes only), default: 0")
+
+parser.add_option ("--test_split", dest="test_split", type='float', default=0.2, help="ratio of test to train split")
 
 parser.add_option ("-v", "--verbose", action="store_true", dest="verbose", help="verbose output")
 
@@ -197,7 +199,7 @@ if os.path.isdir(data_dir):
 #
 
 ts_list = read_all_transcripts(csv_file)
-train_ts_list, test_ts_list = split_train_data(ts_list, 0.3)
+train_ts_list, test_ts_list = split_train_data(ts_list, options.test_split)
 
 ts_all = convert_list_to_map(ts_list)
 ts_train = convert_list_to_map(train_ts_list)
