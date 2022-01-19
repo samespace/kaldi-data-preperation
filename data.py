@@ -56,32 +56,11 @@ def export_kaldi_data (destdirfn, tsdict):
             utt2spkf.write('%s %s\n' % (utt_id, utt_id))
 
 
-def export_dictionary(ts_all, lex, dictfn2, prompt_words):
+def export_dictionary(ts_all, lex, dictfn2):
     logging.info("Exporting dictionary...")
     utt_dict = {}
-    if prompt_words:
-        for ts in ts_all:
-
-            tsd = ts_all[ts]
-
-            tokens = tsd.split(' ')
-
-            # logging.info ( '%s %s' % (repr(ts), repr(tokens)) )
-
-            for token in tokens:
-                if token in utt_dict:
-                    continue
-
-                if not token in lex:
-                    logging.error(
-                        "*** ERROR: missing token in dictionary: '%s' (tsd=%s, tokens=%s)" % (
-                        token, repr(tsd), repr(tokens)))
-                    sys.exit(1)
-
-                utt_dict[token] = lex.get_multi(token)
-    else:
-        for token in lex:
-            utt_dict[token] = lex.get_multi(token)
+    for token in lex:
+        utt_dict[token] = lex.get_multi(token)
 
     ps = {}
     with open(dictfn2, 'w') as dictf:
@@ -233,7 +212,7 @@ export_kaldi_data('%s/test/' % data_dir, ts_test)
 #
 
 os.makedirs('%s/dict' % data_dir)
-ps, utt_dict = export_dictionary(ts_all, Lexicon(file_path=dictionary), '%s/dict/lexicon.txt' % data_dir, options.prompt_words)
+ps, utt_dict = export_dictionary(ts_all, Lexicon(file_path=dictionary), '%s/dict/lexicon.txt' % data_dir)
 write_nonsilence_phones(ps, '%s/dict/nonsilence_phones.txt' % data_dir)
 write_silence_phones('%s/dict/silence_phones.txt' % data_dir)
 write_optional_silence('%s/dict/optional_silence.txt' % data_dir)
