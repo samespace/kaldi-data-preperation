@@ -191,14 +191,9 @@ def create_training_data_for_language_model(utt_dict, data_dir, transcripts):
 # commandline
 #
 
-parser = OptionParser("usage: %prog [options] <model_name> <dictionary> <language_model> <audio_corpus> [ <audio_corpus2> ... ]")
+parser = OptionParser("usage: %prog [options] <dict> <csv_path>")
 
 parser.add_option ("-d", "--debug", dest="debug", type='int', default=0, help="Limit number of sentences (debug purposes only), default: 0")
-
-parser.add_option ("-s", "--sequitur-model", dest="sequitur_model", type='str', 
-                   help="sequitur model (used to generate missing dict entries, if given)")
-
-parser.add_option ("-p", "--prompt-words", action="store_true", dest="prompt_words", help="Limit dict to tokens covered in prompts")
 
 parser.add_option ("-v", "--verbose", action="store_true", dest="verbose", help="verbose output")
 
